@@ -6,29 +6,46 @@ import {
 } from '../../servises/apiContacts';
 
 // fetchAllContacts thunk
-export const fetchAllContacts = createAsyncThunk('contact/fetch', async () => {
-  const contacts = await fetchContacts();
-  return contacts;
-});
+export const fetchAllContacts = createAsyncThunk(
+  'contact/fetch',
+  async (_, { rejectWithValue }) => {
+    try {
+      const contacts = await fetchContacts();
+      return contacts;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  },
+);
 
 // createContact thunk
 export const createContact = createAsyncThunk(
   'contact/create',
-  async ({ name, number }) => {
+  async ({ name, number }, { rejectWithValue }) => {
     const newContact = {
       name,
       number,
     };
-    const contact = await addContact(newContact);
-    return contact;
+
+    try {
+      const contact = await addContact(newContact);
+      return contact;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );
 
 // deleteContact thunk
 export const deleteContact = createAsyncThunk(
   'contact/delete',
-  async contactId => {
-    const contact = await delContact(contactId);
-    return contact;
+  async (contactId, { rejectWithValue }) => {
+    try {
+      const contact = await delContact(contactId);
+      return contact;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );
