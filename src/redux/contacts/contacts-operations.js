@@ -12,14 +12,17 @@ export const fetchAllContacts = createAsyncThunk('contact/fetch', async () => {
 });
 
 // createContact thunk
-export const createContact = createAsyncThunk('contact/create', async data => {
-  const newContact = {
-    name: data,
-    number: data,
-  };
-  const contact = await addContact(newContact);
-  return contact;
-});
+export const createContact = createAsyncThunk(
+  'contact/create',
+  async ({ name, number }) => {
+    const newContact = {
+      name,
+      number,
+    };
+    const contact = await addContact(newContact);
+    return contact;
+  },
+);
 
 // deleteContact thunk
 export const deleteContact = createAsyncThunk(

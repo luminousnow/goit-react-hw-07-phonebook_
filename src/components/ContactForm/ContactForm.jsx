@@ -43,7 +43,7 @@ function ContactForm() {
       return;
     }
 
-    dispatch(createContact(name, number));
+    dispatch(createContact({ name, number }));
     resetFormField();
   };
 
